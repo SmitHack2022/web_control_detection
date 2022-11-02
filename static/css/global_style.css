@@ -32,7 +32,9 @@ body {
     color: #efefef;
 }
 
-
+#problem_title {
+    font-size: 3rem;
+}
 #control__element {
     display: flex;
     flex-direction: row;
