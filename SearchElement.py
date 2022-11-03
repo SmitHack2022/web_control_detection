@@ -7,8 +7,8 @@ import re
 from time import sleep
 
 
-chrome_path = 'D:\python_file\LearningProjects\chromedriver.exe'
-pytesseract.pytesseract.tesseract_cmd = 'D:\other\module\\tesseract.exe'
+chrome_path = r'C:\Users\mundr\Downloads\chromedriver_win32\chromedriver.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\\tesseract.exe'
 
 
 def open_website(url):
@@ -16,15 +16,13 @@ def open_website(url):
     driver.maximize_window()
     driver.get(url)
     sleep(1)
-    screenshot = pyautogui.screenshot(region=(0, 150, 1920, 880))
+    # screenshot = pyautogui.screenshot(region=(0, 150, 1920, 880))
+    driver.get_screenshot_as_file(f"static/img/scrap_img/{url[12:17]}.png")
     driver.close()
-    return screenshot
-
-
-def display_and_save(screenshot, WEBSITE_URL):
-    image = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
-    cv2.imwrite(f"static/img/scrap_img/{WEBSITE_URL[12:12+5]}.png", image)
+    image = cv2.imread(f"static/img/scrap_img/{url[12:17]}.png", cv2.IMREAD_COLOR)
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
     return image
+
 
 
 def image_processing(image):
@@ -35,7 +33,7 @@ def image_processing(image):
 
     # Kernel size increases or decreases the area of the rectangle to be detected.
     # A smaller value like (10, 10) will detect each word instead of a sentence.
-    rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (10, 10))
+    rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
 
     dilation = cv2.dilate(thresh1, rect_kernel, iterations=1)
     contours, hierarchy = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -86,8 +84,7 @@ def get_web_elements(detected_data, image, WEBSITE_URL):
 
 def get_website_data(url):
     WEBSITE_URL = url
-    screenshot = open_website(WEBSITE_URL)
-    image = display_and_save(screenshot, WEBSITE_URL)
+    image = open_website(WEBSITE_URL)
     detected_regions = image_processing(image)
     element_data = get_web_elements(detected_regions, image, WEBSITE_URL)
     return element_data
