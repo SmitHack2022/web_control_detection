@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 Bootstrap(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///web_element.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///<db file path>'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -68,7 +68,10 @@ def contact():
 def get_website_url():
     global website_url
     website_url = request.form.get("website_url")
-    table_data = ElementTable.query.filter_by(website=website_url[12:12+5]).all()
+    if not website_url:
+        return render_template("home.html", table_data=[], website_url=website_url)
+
+    table_data = ElementTable.query.filter_by(website=website_url[12:17]).all()
     if not table_data:
         element_data = get_website_data(website_url)
         for data in element_data:
@@ -84,7 +87,7 @@ def get_website_url():
             )
             db.session.add(insert_data)
             db.session.commit()
-            table_data = ElementTable.query.filter_by(website=website_url[12:12+5]).all()
+            table_data = ElementTable.query.filter_by(website=website_url[12:17]).all()
 
     return render_template("home.html", table_data=table_data, website_url=website_url)
 
@@ -168,7 +171,7 @@ def add_new_element():
         'height': 0,
         'width': 0,
         'img_url': "",
-        "website": website_url[12:12 + 5],
+        "website": website_url[12:17],
         "main_name": ""
     }
     return render_template("edit_element.html", element=element, is_edit=False)
