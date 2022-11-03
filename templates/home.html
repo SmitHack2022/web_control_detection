@@ -52,10 +52,11 @@
               {% for data in table_data: %}
                   <div class="post-preview" id="control__element">
                       <a href="{{ url_for('show_element', element_id=data.id) }}">
-                          <h2 class="post-title">{{ data.name }}</h2>
+                          <h2 class="post-title" id="control__name">{{ data.name }}</h2>
                       </a>
-                      <h3>
-                          <a href="{{url_for('delete_element', element_id=data.id) }}">✘</a>
+                      <h3 class="edit__add__control">
+                          <a class="btn-sm btn-outline-primary" id="del__btn" href="{{url_for('delete_element', element_id=data.id) }}">DELETE</a>
+                          <a class="btn-sm btn-outline-primary" id="edit__btn" href="{{url_for('edit_element', element_id=data.id)}}">EDIT</a>
                       </h3>
                   </div>
                   <hr>
