@@ -32,9 +32,7 @@ body {
     color: #efefef;
 }
 
-#problem_title {
-    font-size: 3rem;
-}
+
 #control__element {
     display: flex;
     flex-direction: row;
@@ -44,7 +42,7 @@ body {
 
 #control__element h2 {
     overflow: hidden;
-    max-width: 30ch;
+    max-width: 25ch;
 }
 
 .add__edit__controls {
@@ -76,3 +74,37 @@ body {
     margin-bottom: 2rem;
 }
 
+#problem_title {
+    font-size: 3rem;
+}
+
+.edit__add__control {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.post-preview {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+}
+
+
+.edit__add__control a {
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 2px solid;
+}
+
+
+#del__btn {
+    margin-right: 10px;
+}
+
+
+#control__name {
+    font-size: 1.5rem;
+}
